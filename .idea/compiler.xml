@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="jdbc-assignment-ineuron" target="18" />
+      <module name="jdbc-assignment-ineuron" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

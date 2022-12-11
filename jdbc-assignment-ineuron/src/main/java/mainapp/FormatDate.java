@@ -18,14 +18,14 @@ public class FormatDate {
     public static Date to_dd_MM_yyyy(String input) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date utlDate = simpleDateFormat.parse(input);
-        java.sql.Date date = new java.sql.Date(utlDate.getTime());
-        return date;
+        java.sql.Date sqlDate = new java.sql.Date(utlDate.getTime());
+        return sqlDate;
     }
 
     public static Date to_MM_dd_yyyy(String input) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
         Date utlDate = simpleDateFormat.parse(input);
-        java.sql.Date date = new java.sql.Date(utlDate.getTime());
-        return date;
+        java.sql.Date sqlDate = new java.sql.Date(utlDate.getTime());
+        return sqlDate;
     }
 }

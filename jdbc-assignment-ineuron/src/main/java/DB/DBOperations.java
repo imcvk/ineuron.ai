@@ -55,10 +55,11 @@ public class DBOperations {
             while (resultSet.next()) {
                 s.setName(resultSet.getString(2));
                 s.setAddress(resultSet.getString(3));
-                s.setDob(resultSet.getDate(4));
-                s.setDoj(resultSet.getDate(5));
+                s.setGender(resultSet.getString(4));
+                s.setDob(resultSet.getDate(5));
                 s.setDoj(resultSet.getDate(6));
-                s.setGender(resultSet.getString(7));
+                s.setDom(resultSet.getDate(7));
+
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

@@ -1,33 +1,112 @@
 package mainapp;
 
-import DB.DBOperations;
-import com.github.javafaker.Faker;
-import entities.Student;
-import fakedatasource.FakeDataSource;
+
+import java.text.ParseException;
 
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Scanner;
+
+import DB.DBOperations;
+import entities.Student;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
-        String d1, d2, d3;
-        d1 = "23-03-2000";
-        d2 = "03-23-2000";
-        d3 = "2000-03-23";
-        Student s=new Student();
-        s.setId(112);
-        s.setName("sdfsdf");
-        s.setGender("sdfsdf");
-        s.setAddress("sdfsdf");
-        s.setDob((Date) FormatDate.to_dd_MM_yyyy(d1));
-        s.setDoj((Date) FormatDate.to_MM_dd_yyyy(d2));
-        s.setDom((Date) FormatDate.to_yyyy_MM_dd(d3));
-        System.out.println(s);
-        DBOperations dbOperations=new DBOperations();
-        dbOperations.insert(s);
+        Scanner sc = new Scanner(System.in);
+        DBOperations dbOperations = new DBOperations();
+
+        boolean active = true;
+        while (active) {
+            System.out.println("1.Create    2.Delete    3.Update    4.Select    5.Exit");
+            int choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    Main.createRecord(sc, dbOperations);
+                    break;
+                case 2:
+                    Main.deleteRecord(sc, dbOperations);
+                    break;
+                case 3:
+                    Main.updateRecord(sc, dbOperations);
+                    break;
+                case 4:
+                    Main.selectRecord(sc, dbOperations);
+                    break;
+                case 5:
+                    active = false;
+                    break;
+            }
+        }
     }
 
+    public static void createRecord(Scanner sc, DBOperations dbOperations) throws ParseException {
+        Student student = new Student();
+        System.out.println("Enter Name of Student:");
+        String name = sc.next();
+        System.out.println("Enter Address of Student:");
+        String address = sc.next();
+        System.out.println("Enter Gender of Student:");
+        String gender = sc.next();
+        System.out.println("Enter DOB of Student:");
+        String tempDate = sc.next();
+        Date dob = (Date) FormatDate.to_dd_MM_yyyy(tempDate);
+        System.out.println("Enter DOJ of Student:");
+        tempDate = sc.next();
+        Date doj = (Date) FormatDate.to_MM_dd_yyyy(tempDate);
+        System.out.println("Enter DOM of Student:");
+        tempDate = sc.next();
+        Date dom = (Date) FormatDate.to_yyyy_MM_dd(tempDate);
+        student.setName(name);
+        student.setAddress(address);
+        student.setGender(gender);
+        student.setDob(dob);
+        student.setDoj(doj);
+        student.setDom(dom);
+        dbOperations.insert(student);
+    }
+
+    public static void deleteRecord(Scanner sc, DBOperations dbOperations) {
+        System.out.println("Enter Student id to delete:");
+        int id = sc.nextInt();
+        dbOperations.delete(id);
+    }
+
+    public static void selectRecord(Scanner sc, DBOperations dbOperations) {
+        System.out.println("Enter Student id to fetch record:");
+        int id = sc.nextInt();
+        System.out.println(dbOperations.select(id));
+    }
+
+    public static void updateRecord(Scanner sc, DBOperations dbOperations) throws ParseException {
+        Student student = new Student();
+        System.out.println("Enter Student ID to Update:");
+        int id = sc.nextInt();
+        System.out.println("Enter Name of Student:");
+        String name = sc.next();
+        System.out.println("Enter Address of Student:");
+        String address = sc.next();
+        System.out.println("Enter Gender of Student:");
+        String gender = sc.next();
+        System.out.println("Enter DOB of Student:");
+        String tempDate = sc.next();
+        Date dob = (Date) FormatDate.to_dd_MM_yyyy(tempDate);
+        System.out.println("Enter DOJ of Student:");
+        tempDate = sc.next();
+        Date doj = (Date) FormatDate.to_MM_dd_yyyy(tempDate);
+        System.out.println("Enter DOM of Student:");
+        tempDate = sc.next();
+        Date dom = (Date) FormatDate.to_yyyy_MM_dd(tempDate);
+        student.setId(id);
+        student.setName(name);
+        student.setAddress(address);
+        student.setGender(gender);
+        student.setDob(dob);
+        student.setDoj(doj);
+        student.setDom(dom);
+        try {
+            dbOperations.update(student);
+        } catch (Exception e) {
+
+        }
+
+    }
 }
