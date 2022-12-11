@@ -39,74 +39,59 @@ public class Main {
     }
 
     public static void createRecord(Scanner sc, DBOperations dbOperations) throws ParseException {
-        Student student = new Student();
-        System.out.println("Enter Name of Student:");
-        String name = sc.next();
-        System.out.println("Enter Address of Student:");
-        String address = sc.next();
-        System.out.println("Enter Gender of Student:");
-        String gender = sc.next();
-        System.out.println("Enter DOB of Student:");
-        String tempDate = sc.next();
-        Date dob = (Date) FormatDate.to_dd_MM_yyyy(tempDate);
-        System.out.println("Enter DOJ of Student:");
-        tempDate = sc.next();
-        Date doj = (Date) FormatDate.to_MM_dd_yyyy(tempDate);
-        System.out.println("Enter DOM of Student:");
-        tempDate = sc.next();
-        Date dom = (Date) FormatDate.to_yyyy_MM_dd(tempDate);
-        student.setName(name);
-        student.setAddress(address);
-        student.setGender(gender);
-        student.setDob(dob);
-        student.setDoj(doj);
-        student.setDom(dom);
+        Student student = Main.getStudent(sc);
         dbOperations.insert(student);
     }
-
     public static void deleteRecord(Scanner sc, DBOperations dbOperations) {
         System.out.println("Enter Student id to delete:");
         int id = sc.nextInt();
         dbOperations.delete(id);
     }
-
     public static void selectRecord(Scanner sc, DBOperations dbOperations) {
         System.out.println("Enter Student id to fetch record:");
         int id = sc.nextInt();
         System.out.println(dbOperations.select(id));
     }
-
     public static void updateRecord(Scanner sc, DBOperations dbOperations) throws ParseException {
-        Student student = new Student();
         System.out.println("Enter Student ID to Update:");
         int id = sc.nextInt();
-        System.out.println("Enter Name of Student:");
-        String name = sc.next();
-        System.out.println("Enter Address of Student:");
-        String address = sc.next();
-        System.out.println("Enter Gender of Student:");
-        String gender = sc.next();
-        System.out.println("Enter DOB of Student:");
-        String tempDate = sc.next();
-        Date dob = (Date) FormatDate.to_dd_MM_yyyy(tempDate);
-        System.out.println("Enter DOJ of Student:");
-        tempDate = sc.next();
-        Date doj = (Date) FormatDate.to_MM_dd_yyyy(tempDate);
-        System.out.println("Enter DOM of Student:");
-        tempDate = sc.next();
-        Date dom = (Date) FormatDate.to_yyyy_MM_dd(tempDate);
+        Student student = Main.getStudent(sc);
         student.setId(id);
+        try {
+            dbOperations.update(student);
+        } catch (Exception e) {
+        }
+    }
+
+    public static Student getStudent(Scanner sc) {
+        Student student = new Student();
+        Date dob = null, doj = null, dom = null;
+        String name, address, gender, tempDate;
+        System.out.println("Enter Name of Student:");
+        name = sc.next();
+        System.out.println("Enter Address of Student:");
+        address = sc.next();
+        System.out.println("Enter Gender of Student:");
+        gender = sc.next();
+        System.out.println("Enter DOB of Student:");
+        tempDate = sc.next();
+        try {
+            dob = (Date) FormatDate.to_dd_MM_yyyy(tempDate);
+            System.out.println("Enter DOJ of Student:");
+            tempDate = sc.next();
+            doj = (Date) FormatDate.to_MM_dd_yyyy(tempDate);
+            System.out.println("Enter DOM of Student:");
+            tempDate = sc.next();
+            dom = (Date) FormatDate.to_yyyy_MM_dd(tempDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         student.setName(name);
         student.setAddress(address);
         student.setGender(gender);
         student.setDob(dob);
         student.setDoj(doj);
         student.setDom(dom);
-        try {
-            dbOperations.update(student);
-        } catch (Exception e) {
-
-        }
-
+        return student;
     }
 }
